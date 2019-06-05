@@ -38,7 +38,6 @@ class App extends React.Component {
       .catch(() => {
         console.log("error");
       });
-
   };
 
   //calculate average ratings over all reviews
