@@ -10,8 +10,8 @@ CREATE TABLE reviewTable (
   room_id INTEGER NOT NULL ,
   gender INTEGER NOT NULL,
   profilePicNum INTEGER NOT NULL,
-  date VARCHAR(32) NOT NULL,
-  sentence VARCHAR(32) NOT NULL,
+  date DATE NOT NULL,
+  sentence VARCHAR(255) NOT NULL,
   accuracy_rating INTEGER NOT NULL,
   communication_rating INTEGER NOT NULL,
   cleanliness_rating INTEGER NOT NULL,
@@ -21,3 +21,7 @@ CREATE TABLE reviewTable (
   overall_rating INTEGER NOT NULL
 );
 
+CREATE TABLE roomTable (
+  id INTEGER NOT NULL PRIMARY KEY UNIQUE,
+  name VARCHAR(64)
+);
