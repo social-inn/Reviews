@@ -15,9 +15,9 @@ Social-Inn is an online marketplace for users to book or offer lodging. This mod
 
 ## Usage
 
-Parameters:
-
-room_id: integer,
+Room Schema:
+``` javascript
+room_id: integer
 review: {
   "id": integer,
   "name": string,
@@ -33,32 +33,54 @@ review: {
   "value_rating": integer,
   "overall_rating": integer
 }
-
+```
 RESTful API Routes:
-
-Type: GET
-Route: '/reviews/:room_id'
+``` 
+Method: GET
+URL: '/reviews/:room_id'
+URL Params: room_id = [integer]
 Description: Responds with array of all existing reviews for the given room id
 Success response: 201 status code 
 Fail response: 500 status code
 
-Type: POST
-Route: '/reviews'
+Method: POST
+URL: '/reviews/:room_id'
+URL Params: room_id = [integer]
 Description: Saves a new room review to the database
 Success response: 201 status code 
 Fail response: 500 status code
 
-Type: PUT
-Route: '/reviews/:room_id'
+Method: PUT
+URL: '/reviews/:room_id'
+URL Params: room_id = [integer]
 Description: Updates an existing room review with the given room id in the database
 Success response: 204 status code 
 Fail response: 500 status code
 
-Type: DELETE
-Route: '/reviews/:room_id'
+Method: DELETE
+URL: '/reviews/:room_id'
+URL Params: room_id = [integer]
 Description: Deletes a review with the given room id from the database
-Success response: 204 status code
-Fail response: 500 status codee
+Success response: 200 status code
+Fail response: 500 status code
+```
+
+Sample Call:
+``` javascript
+app.get('/reviews/:room_id', (req, res) => {
+  mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true });
+  const target = {room_id: req.params.room_id};
+  db.Reviews.find(target)
+    .then((data) => {
+      mongoose.connection.close();
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      mongoose.connection.close();
+      res.status(500).send("Fail to fetch");
+    })
+});
+```
 
 ## Requirements
 
