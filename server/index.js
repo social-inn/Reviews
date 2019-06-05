@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.static(`${__dirname}/../client/dist`));
 
 app.get('/reviews/:room_id', (req, res) => {
-  mongoose.connect('mongodb://172.17.0.2:27017/airbnb', { useNewUrlParser: true });
+  mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true });
   const target = {room_id: req.params.room_id};
   db.Reviews.find(target)
     .then((data) => {
@@ -25,6 +25,36 @@ app.get('/reviews/:room_id', (req, res) => {
       res.status(500).send("Fail to fetch");
     })
 });
+
+// ================ ADD CRUD ROUTES =====================================
+
+// app.post('/reviews', (req, res) => {
+//   mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true });
+//   db.Reviews.create(req.body, function(err, data){
+//     if(err){
+//       mongoose.connection.close();
+//       res.status(500).send('POST request failed');
+//     } else {
+//       mongoose.connection.close();
+//       res.status(201).send('POST request successful');
+//     }
+//   })
+// });
+
+// app.put('/reviews', (req, res) => {
+//   mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true });
+//   db.Reviews.save(req.body, function(err, data){
+//     if(err){
+//       mongoose.connection.close();
+//       res.status(500).send('PUT request failed');
+//     } else {
+//       mongoose.connection.close();
+//       res.status(201).send('PUT request successful');
+//     }
+//   })
+// })
+
+// ======================================================================
 
 
 app.listen(PORT, ()=>{
