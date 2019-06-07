@@ -1,13 +1,13 @@
-// node --max-old-space-size=8192 ./db_postgres/seed.js 
-
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 var writer = csvWriter();
 const casual = require('casual');
 
-var review_id = 1;
 var numberOfHomes = 100000;
 var reviewsPerHome = 100;
+// var numberOfHomes = 10;
+// var reviewsPerHome = 3;
+var review_id = 1;
 var name = () => casual.first_name;
 var gender = () => casual.integer(0, 1);
 var profilepicnum = () => casual.integer(0, 99);
@@ -29,6 +29,7 @@ const dataGen = () => {
   for (var i = 0; i < numberOfHomes; i++) {
     for (var j = 0; j < reviewsPerHome; j++) {
       writer.write({
+        review_id: review_id,
         room_id: i+1,
         username: name(),
         gender: gender(),

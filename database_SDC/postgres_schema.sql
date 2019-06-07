@@ -1,9 +1,3 @@
--- postgres terminal commands:
-  -- brew services start postgresql
-  -- psql postgres
-  -- \q
-
-
 CREATE DATABASE reviewschema;
 
 \c reviewschema
@@ -28,11 +22,3 @@ CREATE TABLE reviewtable (
 );
 
 COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
-
-
--- DROP TABLE IF EXISTS roomtable;
-
--- CREATE TABLE roomtable (
---   id SERIAL PRIMARY KEY,
---   name VARCHAR(64)
--- );

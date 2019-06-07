@@ -1,0 +1,34 @@
+Dependencies:
+  npm install
+  npm install -g webpack
+  npm install casual
+  npm install csv-write-stream
+  brew install cassandra
+  
+========================================================
+Write CSV File:
+  node --max-old-space-size=8192 ./database_SDC/seed.js 
+
+Copy CSV file to postgres db:
+  COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
+
+========================================================
+Postgres commands:
+  psql postgres
+  \l (show dbs)
+  \c (use)
+  \dt (show tables)
+  \d <tablename> (describe table columns)
+  \q (quit)
+  psql postgres < ./db_postgres/schema.sql
+
+Query postgres:
+  \timing on SELECT * FROM reviewtable WHERE review_id=9999999;
+
+========================================================
+Cassandra commands:
+  cassandra -f
+  brew services start cassandra
+  cqlsh
+  describe keyspaces
+  desc keyspaces
