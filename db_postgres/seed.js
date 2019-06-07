@@ -1,43 +1,81 @@
-// const {reviewGenerator} = require('./review_Generator.js/index.js');
-// const {roomReviewGenerator} = require('./room_Review_Generator.js');
+// node --max-old-space-size=8192 ./db_postgres/seed.js 
+
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 var writer = csvWriter();
 const casual = require('casual');
 
-var numberOfHomes = 1000;
-var reviewsPerHome = 25;
+var review_id = 1;
+var numberOfHomes = 100000;
+var reviewsPerHome = 100;
+var name = () => casual.first_name;
+var gender = () => casual.integer(0, 1);
+var profilepicnum = () => casual.integer(0, 99);
+var date = () => casual.date('MMMM YYYY');
+var sentence = () => casual.text; 
+var accuracy_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var communication_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var cleanliness_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var location_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var check_in_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var value_rating = () => (Math.floor((Math.random() * 50)) / 10);
+var overall_rating = () => (Math.floor((Math.random() * 50)) / 10);
+
 
 const dataGen = () => {
-  writer.pipe(fs.createWriteStream('data.csv'));
+
+  console.log('Generating data. This may take a minute...');
+  writer.pipe(fs.createWriteStream('sample.csv'));
   for (var i = 0; i < numberOfHomes; i++) {
     for (var j = 0; j < reviewsPerHome; j++) {
       writer.write({
         room_id: i+1,
-        review_id: j+1,
-        name: casual.first_name,
-        gender: casual.gender,
-        profilePicNum: casual.integer(0, 99),
-        date: casual.date('MMMM YYYY'),
-        sentence: casual.text, 
-        accuracy_rating: casual.double(0, 5).toFixed(1),
-        communication_rating: Number(casual.double(0, 5).toFixed(1)),
-        cleanliness_rating: Number(casual.double(0, 5).toFixed(1)),
-        location_rating: Number(casual.double(0, 5).toFixed(1)),
-        check_in_rating: Number(casual.double(0, 5).toFixed(1)),
-        value_rating: Number(((this.accuracy_rating
-          + this.communication_rating
-          + this.cleanliness_rating
-          + this.location_rating
-          + this.check_in_rating
-          + this.value_rating) / 6)
-         .toFixed(1))
+        username: name(),
+        gender: gender(),
+        profilepicnum: profilepicnum(),
+        reviewdate: date(),
+        sentence: sentence(), 
+        accuracy_rating: accuracy_rating(),
+        communication_rating: communication_rating(),
+        cleanliness_rating: cleanliness_rating(),
+        location_rating: location_rating(),
+        check_in_rating: check_in_rating(),
+        value_rating: value_rating(),
+        overall_rating: overall_rating(),
       });
+      review_id++;
     }
   }
+  console.log('*** Saved ' + (numberOfHomes * reviewsPerHome) + ' records to CSV file ***');
+
+  // append to file 9 more times, 10 total
+  // for (var h = 0; h < 9; h++) {
+  //   writer.pipe(fs.createWriteStream('sample.csv',  {flags: 'a'}));
+  //   for (var i = 0; i < numberOfHomes; i++) {
+  //     for (var j = 0; j < reviewsPerHome; j++) {
+  //       writer.write({
+  //         room_id: i+1,
+  //         username: name(),
+  //         gender: gender(),
+  //         profilepicnum: profilepicnum(),
+  //         reviewdate: date(),
+  //         sentence: sentence(), 
+  //         accuracy_rating: accuracy_rating(),
+  //         communication_rating: communication_rating(),
+  //         cleanliness_rating: cleanliness_rating(),
+  //         location_rating: location_rating(),
+  //         check_in_rating: check_in_rating(),
+  //         value_rating: value_rating(),
+  //         overall_rating: overall_rating(),
+  //       });
+  //       review_id++;
+  //     }
+  //   }
+  //   console.log('*** Appended ' + (numberOfHomes * reviewsPerHome) + ' records to CSV file ***');
+  // }
 
   writer.end();
-  console.log('done');
+  console.log('Data file complete');
 }
 
 dataGen();
