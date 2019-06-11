@@ -26,5 +26,8 @@ CREATE TABLE reviews (
   PRIMARY KEY (review_id) 
 );
 
-
 COPY reviews (review_id, room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' WITH HEADER = true;
+
+CREATE INDEX room_idx ON reviews.reviews (room_id);
+
+tracing on;

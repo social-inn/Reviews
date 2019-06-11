@@ -3,10 +3,7 @@ const csvWriter = require('csv-write-stream');
 var writer = csvWriter();
 const casual = require('casual');
 
-// var numberOfHomes = 10;
-// var reviewsPerHome = 3;
-var numberOfHomes = 100000;
-var reviewsPerHome = 100;
+var numberOfHomes = 10000000;
 var review_id = 1;
 var usernames = [];
 var profilePicNums = [];
@@ -42,7 +39,9 @@ var generateDates = (x) => {
 }
 
 var generateSentences = (x) => {
-  sentences.push(casual.text);
+  for (var i = 0; i < x; i++) {
+    sentences.push(casual.text);
+  }
 }
 
 var generateRating = () => {
@@ -55,12 +54,13 @@ generateProfilePicNumArr(50);
 generateDates(50);
 generateSentences(50);
 
-
+// comment out review_id when seeding postgres
 const dataGen = () => {
-
   console.log('Generating data. This may take a minute...');
   writer.pipe(fs.createWriteStream('sample.csv'));
+  // genereate 10M homes with 0-20 reviews each
   for (var i = 0; i < numberOfHomes; i++) {
+    var reviewsPerHome = Math.floor(Math.random() * 20);
     for (var j = 0; j < reviewsPerHome; j++) {
       writer.write({
         review_id: review_id,
@@ -81,7 +81,6 @@ const dataGen = () => {
       review_id++;
     }
   }
-  console.log('*** Saved ' + (numberOfHomes * reviewsPerHome) + ' records to CSV file ***');
 
   // append to file 9 more times, 10 total
   // for (var h = 0; h < 9; h++) {
@@ -110,7 +109,7 @@ const dataGen = () => {
   // }
 
   writer.end();
-  console.log('Data file complete');
+  console.log('*** Saved ' + numberOfHomes + ' homes to CSV file ***');
 }
 
 dataGen();

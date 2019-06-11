@@ -1,11 +1,11 @@
-CREATE DATABASE reviewschema;
+DROP DATABASE IF EXISTS reviews;
 
-\c reviewschema
+CREATE DATABASE reviews;
 
-DROP TABLE IF EXISTS reviewtable;
--- store all reviews in one table for faster query
-CREATE TABLE reviewtable (
-  review_id SERIAL PRIMARY KEY,
+\c reviews;
+
+CREATE TABLE reviews (
+  review_id SERIAL PRIMARY KEY UNIQUE,
   room_id INTEGER NOT NULL,
   username VARCHAR(255) NOT NULL,
   gender INTEGER NOT NULL,
@@ -21,4 +21,11 @@ CREATE TABLE reviewtable (
   overall_rating DECIMAL NOT NULL
 );
 
-COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
+-- copy csv to database
+COPY reviews (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
+
+-- create secondary index
+CREATE INDEX room_idx ON reviews (room_id);
+
+-- turn on timing to measure queries
+\timing on

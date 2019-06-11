@@ -6,29 +6,43 @@ Dependencies:
   brew install cassandra
   
 ========================================================
-Write CSV File:
+WRITE CSV FILE:
   node --max-old-space-size=8192 ./database_SDC/seed.js 
 
-Copy CSV file to postgres db:
-  COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
-
 ========================================================
-Postgres commands:
+POSTGRES COMMANDS:
   psql postgres
   \l (show dbs)
   \c (use)
   \dt (show tables)
   \d <tablename> (describe table columns)
   \q (quit)
-  psql postgres < ./db_postgres/schema.sql
+  psql postgres < ./database_SDC/postgres_schema.sql
 
-Query postgres:
-  \timing on SELECT * FROM reviewtable WHERE review_id=9999999;
+  Copy Data to Postgres
+    COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
+
+  Secondary Index Postgres
+    CREATE INDEX room_idx ON reviews (room_id);
+
+  Query postgres:
+    \timing on SELECT * FROM reviews WHERE room_id=9999999;
 
 ========================================================
-Cassandra commands:
+CASSANDRA COMMANDS:
   cassandra -f
   brew services start cassandra
   cqlsh
-  describe keyspaces
-  desc keyspaces
+  describe <keyspaces>
+  desc <keyspaces>
+  use <keyspace>
+  tracing on
+
+  Secondary Index Cassandra 
+    CREATE INDEX room_idx ON reviews.reviews (room_id);
+
+  Copy Data to cassandra
+    COPY reviews (review_id, room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' WITH HEADER = true;
+
+  Query Cassandra
+    tracing on
