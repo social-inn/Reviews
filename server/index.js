@@ -11,10 +11,6 @@ app.use(express.static(`${__dirname}/../client/dist`));
 app.use(bodyParser.json());
 app.use(cors());
 
-// app.get('/reviews', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-// })
-
 app.get('/reviews/:room_id', reviews.getRoomReviews);
 
 app.listen(PORT, ()=>{
