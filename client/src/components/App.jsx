@@ -12,7 +12,7 @@ class App extends React.Component {
     this.state = {
       original_data: [],
       rev_data: [[]],
-      room_id: Math.floor(Math.random()*99),
+      room_id: Math.floor(Math.random()*1000000),
       ratings: {},
       overall_rating: 0,
       num_reviews: 0,
@@ -28,21 +28,38 @@ class App extends React.Component {
   componentDidMount() {
     axios.get(`/reviews/${window.location.href.match(/id\s*=\s*(.*)/)[1]}`)
       .then((response) => {
-        this.dataSlicer(response.data[0].reviews);
+        this.dataSlicer(response.data.rows);
         this.setState({
-          original_data: response.data[0].reviews,
-          num_reviews: response.data[0].reviews.length,
+          original_data: response.data.rows,
+          num_reviews: response.data.rows.length,
         });
-        this.findOverallRating(response.data[0].reviews);
+        this.findOverallRating(response.data.rows);
       })
       .catch(() => {
         console.log("error");
       });
-
   };
+
+
+  // componentDidMount() {
+  //   console.log(`/reviews/${window.location.href.match(/id\s*=\s*(.*)/)[1]}`);
+  //   axios.get(`/reviews/${window.location.href.match(/id\s*=\s*(.*)/)[1]}`)
+  //     .then((response) => {
+  //       this.dataSlicer(response.data[0].reviews);
+  //       this.setState({
+  //         original_data: response.data[0].reviews,
+  //         num_reviews: response.data[0].reviews.length,
+  //       });
+  //       this.findOverallRating(response.data[0].reviewsß);
+  //     })
+  //     .catch(() => {
+  //       console.log("error");
+  //     });
+  // };
 
   //calculate average ratings over all reviews
   findOverallRating(rev_array) {
+    console.log('rev_array: ', rev_array)
     let sum_rating = {
       accuracy: 0,
       communication: 0,
@@ -52,12 +69,12 @@ class App extends React.Component {
       value: 0,
     };
     for (let i = 0; i < rev_array.length; i++) {
-      sum_rating['accuracy'] += rev_array[i].accuracy_rating;
-      sum_rating['communication'] += rev_array[i].communication_rating;
-      sum_rating['cleanliness'] += rev_array[i].cleanliness_rating;
-      sum_rating['location'] += rev_array[i].location_rating;
-      sum_rating['check_in'] += rev_array[i].check_in_rating;
-      sum_rating['value'] += rev_array[i].value_rating;
+      sum_rating['accuracy'] += parseInt(rev_array[i].accuracy_rating);
+      sum_rating['communication'] += parseInt(rev_array[i].communication_rating);
+      sum_rating['cleanliness'] += parseInt(rev_array[i].cleanliness_rating);
+      sum_rating['location'] += parseInt(rev_array[i].location_rating);
+      sum_rating['check_in'] += parseInt(rev_array[i].check_in_rating);
+      sum_rating['value'] += parseInt(rev_array[i].value_rating);
     }
     let average = {};
     for (let key in sum_rating) {

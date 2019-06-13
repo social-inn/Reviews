@@ -28,6 +28,9 @@ POSTGRES COMMANDS:
   Query postgres:
     \timing on SELECT * FROM reviews WHERE room_id=9999999;
 
+  Insert postgres:
+    INSERT INTO reviews (room_id, username, gender, profilepicnum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) VALUES (50999888, 'dude117', 1, 23, 'January 28, 2019', 'sentence goes here yo', 5, 5, 5, 5, 5, 5, 5);
+
 ========================================================
 CASSANDRA COMMANDS:
   cassandra -f
@@ -46,3 +49,6 @@ CASSANDRA COMMANDS:
 
   Query Cassandra
     tracing on
+
+  Insert postgres:
+    INSERT INTO reviews (review_id, room_id, username, gender, profilepicnum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) VALUES (999999, 50999888, 'dude117', 1, 23, 'January 28, 2019', 'sentence goes here yo', 5, 5, 5, 5, 5, 5, 5);
