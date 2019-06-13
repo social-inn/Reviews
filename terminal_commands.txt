@@ -1,0 +1,48 @@
+Dependencies:
+  npm install
+  npm install -g webpack
+  npm install casual
+  npm install csv-write-stream
+  brew install cassandra
+  
+========================================================
+WRITE CSV FILE:
+  node --max-old-space-size=8192 ./database_SDC/seed.js 
+
+========================================================
+POSTGRES COMMANDS:
+  psql postgres
+  \l (show dbs)
+  \c (use)
+  \dt (show tables)
+  \d <tablename> (describe table columns)
+  \q (quit)
+  psql postgres < ./database_SDC/postgres_schema.sql
+
+  Copy Data to Postgres
+    COPY reviewtable (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
+
+  Secondary Index Postgres
+    CREATE INDEX room_idx ON reviews (room_id);
+
+  Query postgres:
+    \timing on SELECT * FROM reviews WHERE room_id=9999999;
+
+========================================================
+CASSANDRA COMMANDS:
+  cassandra -f
+  brew services start cassandra
+  cqlsh
+  describe <keyspaces>
+  desc <keyspaces>
+  use <keyspace>
+  tracing on
+
+  Secondary Index Cassandra 
+    CREATE INDEX room_idx ON reviews.reviews (room_id);
+
+  Copy Data to cassandra
+    COPY reviews (review_id, room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' WITH HEADER = true;
+
+  Query Cassandra
+    tracing on
