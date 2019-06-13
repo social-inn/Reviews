@@ -3,7 +3,7 @@ const csvWriter = require('csv-write-stream');
 var writer = csvWriter();
 const casual = require('casual');
 
-var numberOfHomes = 10000000;
+var numberOfHomes = 1000000;
 var review_id = 1;
 var usernames = [];
 var profilePicNums = [];
@@ -63,7 +63,7 @@ const dataGen = () => {
     var reviewsPerHome = Math.floor(Math.random() * 20);
     for (var j = 0; j < reviewsPerHome; j++) {
       writer.write({
-        review_id: review_id,
+        // review_id: review_id,
         room_id: i+1,
         username: chooseRandom(usernames),
         gender: chooseGender(),
@@ -78,7 +78,7 @@ const dataGen = () => {
         value_rating: generateRating(),
         overall_rating: generateRating(),
       });
-      review_id++;
+      // review_id++;
     }
   }
 
