@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/reviews/:room_id', reviews.getRoomReviews);
+app.post('/reviews/:room_id', reviews.addRoomReview);
 
 app.listen(PORT, ()=>{
   console.log("Server is now listening on port:", PORT);

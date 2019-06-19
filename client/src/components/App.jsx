@@ -26,7 +26,8 @@ class App extends React.Component {
 
   // fetch data while enter the website
   componentDidMount() {
-    axios.get(`/reviews/${window.location.href.match(/id\s*=\s*(.*)/)[1]}`)
+    console.log(window.location.href.split('/')[3].substr(4));
+    axios.get(`/reviews/${window.location.href.split('/')[3].substr(4)}`)
       .then((response) => {
         this.dataSlicer(response.data.rows);
         this.setState({

@@ -23,7 +23,6 @@ CREATE TABLE reviews (
 
 -- copy csv to database
 COPY reviews (room_id, username, gender, profilePicNum, reviewdate, sentence, accuracy_rating, communication_rating, cleanliness_rating, location_rating, check_in_rating, value_rating, overall_rating) FROM '/Users/mattviolet/Desktop/Reviews/sample.csv' DELIMITER ',' CSV HEADER;
-
 -- create secondary index
 CREATE INDEX room_idx ON reviews (room_id);
 
