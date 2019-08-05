@@ -104,7 +104,6 @@ npm start
 
 brew tap loadimpact/k6
 brew install k6
-
 brew install grafana
 brew install influxdb
 ```
